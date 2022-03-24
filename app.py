@@ -23,18 +23,6 @@ class AuthModel(db.Model):
     password = db.Column(db.String(50))
 db.create_all()
 
-class Registerpengguna(Resource):
-    def post(self):
-        dataUsername = request.form.get('username')
-        dataPassword = request.form.get('password')
-
-        if dataUsername and dataPassword:
-            dataModel = AuthModel(username=dataUsername, password=dataPassword)
-            db.session.add(dataModel)
-            db.session.commit()
-            return make_response(jsonify({"Msg ":"Berhasil Register"}), 200)
-        return jsonify({"Msg ":"Username/Password tidak boleh KOSONG"})
-
 class Loginpengguna(Resource):
     def post(self):
         dataUsername = request.form.get('username')
@@ -64,7 +52,6 @@ class infopengguna(Resource):
             return make_response(jsonify({"Username": dataUsername,"Password": dataPassword,"Token API":token}), 200)
         return jsonify({"Msg ":"Gagal Mengambil Info"}) 
 
-api.add_resource(Registerpengguna, "/api/v1/register", methods=["POST"])
 api.add_resource(Loginpengguna, "/api/v1/login", methods=["POST"])
 api.add_resource(infopengguna, "/api/v2/users/info", methods=["POST"])
 
